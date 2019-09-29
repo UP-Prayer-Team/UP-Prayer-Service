@@ -49,7 +49,7 @@ Roles:
 Users who have the `admin` role should also have the `spectator` role.
 
 **`/api/users/authenticate`**
-
+-----------------------------
 **HTTP Method**: `POST`  
 **Required Role**: none  
 **Request Body**:
@@ -69,7 +69,7 @@ Users who have the `admin` role should also have the `spectator` role.
  - `404 Not Found` if the given `username` and `password` combination does not match any existing Users.
 
 **`/api/users/list`**
-
+---------------------
 **HTTP Method**: `GET`  
 **Required Role**: `spectator`  
 **Response Body**:
@@ -88,7 +88,7 @@ Users who have the `admin` role should also have the `spectator` role.
 ```
 
 **`/api/users/user/<userid>`**
-
+------------------------------
 **HTTP Method**: `GET`  
 **Required Role**: `spectator`  
 **Response Body**:
@@ -104,7 +104,7 @@ Users who have the `admin` role should also have the `spectator` role.
 ```
 
 **`/api/users/create`**
-
+-----------------------
 **HTTP Method**: `POST`  
 **Required Role**: `admin`  
 **Request Body**:
@@ -126,7 +126,7 @@ Users who have the `admin` role should also have the `spectator` role.
  - `400 Bad Request` if the given `username` does not meet the username requirements, or if the given `password` does not meet the password requirements, or if any of the `role` entries is not a valid role name, or if a user with the given `username` already exists.
 
 **`/api/users/update`**
-
+-----------------------
 **HTTP Method**: `POST`  
 **Required Role**: `spectator`  
 **Request Body**:
@@ -150,7 +150,7 @@ Users who have the `admin` role should also have the `spectator` role.
  - `400 Bad Request` if the given `username` does not meet the username requirements, or if any of the `role` entries is not a valid role name, or if a different user already exists with the given `username`.
 
 **`/api/users/resetpassword`**
-
+------------------------------
 **HTTP Method**: `POST`  
 **Required Role**: `admin`  
 **Request Body**:
@@ -169,7 +169,7 @@ Users who have the `admin` role should also have the `spectator` role.
  - `404 Not Found` if no User with the given `id` exists.
 
 **`/api/users/setpassword`**
-
+----------------------------
 **HTTP Method**: `POST`  
 **Required Role**: `spectator`  
 **Request Body**:
@@ -186,7 +186,7 @@ Users who have the `admin` role should also have the `spectator` role.
  - `400 Bad Request` if the given `password` does not meet the password requirements.
 
 **`/api/users/delete`**
-
+-----------------------
 **HTTP Method**: `POST`  
 **Required Role**: `admin`  
 **Request Body**:
@@ -216,7 +216,7 @@ Important properties of Reservations:
  - Year, month, date, and slot number
 
 **`/api/reservations/summary?year=<year>&month=<month>`**
-
+---------------------------------------------------------
 **HTTP Method**: `GET`  
 **Required Role**: none  
 **Response Body**:
@@ -239,7 +239,7 @@ Important properties of Reservations:
  - `404 Not Found` if the given `year` and `month` parameters do not specify a valid month.
 
 **`/api/reservations/day?year=<year>&month=<month>&day=<day>`**
-
+---------------------------------------------------------------
 **HTTP Method**: `GET`  
 **Required Role**: none  
 **Response Body**:
@@ -259,7 +259,7 @@ Important properties of Reservations:
  - `404 Not Found` if the given `year`, `month`, and `day` parameters do not specify a valid date.
 
 **`/api/reservations/create`**
-
+------------------------------
 **HTTP Method**: `POST`  
 **Required Role**: none  
 **Request Body**:
@@ -287,7 +287,7 @@ Important properties of Reservations:
  - `400 Bad Request` if the values of `country` or `district` are not valid, or if the `year`, `monthIndex`, `dayIndex`, and `slotIndex` do not specify a valid slot in the future.
 
 **`/api/reservations/confirm`**
-
+-------------------------------
 **HTTP Method**: `POST`  
 **Required Role**: none  
 **Request Body**:
@@ -309,7 +309,7 @@ Locations
 To keep clients & the server in sync with country and district codes, clients can obtain their country & district codes from the server.
 
 **`/api/locations/list`**
-
+-------------------------
 **HTTP Method**: `GET`  
 **Required Role**: none  
 **Response Body**:
@@ -342,7 +342,7 @@ Important properties of Endorsements:
  - Summary of the organization's mission
 
 **`/api/endorsements/list`**
-
+----------------------------
 **HTTP Method**: `GET`  
 **Required Role**: none  
 **Response Body**:
@@ -361,7 +361,7 @@ Important properties of Endorsements:
 ```
 
 **`/api/endorsements/current`**
-
+-------------------------------
 **HTTP Method**: `GET`  
 **Required Role**: none  
 **Response Body**:
@@ -376,7 +376,7 @@ Important properties of Endorsements:
  - `404 Not Found` if there are no endorsements.
 
 **`/api/endorsements/update`**
-
+------------------------------
 **HTTP Method**: `POST`  
 **Required Role**: `admin`  
 **Request Body**:
