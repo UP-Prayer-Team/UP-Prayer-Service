@@ -50,8 +50,8 @@ Users who have the `admin` role should also have the `spectator` role.
 
 **`/api/users/authenticate`**
 
-**HTTP Method**: `POST`
-**Required Role**: none
+**HTTP Method**: `POST`  
+**Required Role**: none  
 **Request Body**:
 ```json
 {
@@ -70,8 +70,8 @@ Users who have the `admin` role should also have the `spectator` role.
 
 **`/api/users/list`**
 
-**HTTP Method**: `GET`
-**Required Role**: `spectator`
+**HTTP Method**: `GET`  
+**Required Role**: `spectator`  
 **Response Body**:
 ```json
 "data": [
@@ -89,8 +89,8 @@ Users who have the `admin` role should also have the `spectator` role.
 
 **`/api/users/user/<userid>`**
 
-**HTTP Method**: `GET`
-**Required Role**: `spectator`
+**HTTP Method**: `GET`  
+**Required Role**: `spectator`  
 **Response Body**:
 ```json
 "data": {
@@ -105,8 +105,8 @@ Users who have the `admin` role should also have the `spectator` role.
 
 **`/api/users/create`**
 
-**HTTP Method**: `POST`
-**Required Role**: `admin`
+**HTTP Method**: `POST`  
+**Required Role**: `admin`  
 **Request Body**:
 ```json
 {
@@ -127,8 +127,8 @@ Users who have the `admin` role should also have the `spectator` role.
 
 **`/api/users/update`**
 
-**HTTP Method**: `POST`
-**Required Role**: `spectator`
+**HTTP Method**: `POST`  
+**Required Role**: `spectator`  
 **Request Body**:
 ```json
 {
@@ -151,8 +151,8 @@ Users who have the `admin` role should also have the `spectator` role.
 
 **`/api/users/resetpassword`**
 
-**HTTP Method**: `POST`
-**Required Role**: `admin`
+**HTTP Method**: `POST`  
+**Required Role**: `admin`  
 **Request Body**:
 ```json
 {
@@ -170,8 +170,8 @@ Users who have the `admin` role should also have the `spectator` role.
 
 **`/api/users/setpassword`**
 
-**HTTP Method**: `POST`
-**Required Role**: `spectator`
+**HTTP Method**: `POST`  
+**Required Role**: `spectator`  
 **Request Body**:
 ```json
 {
@@ -187,8 +187,8 @@ Users who have the `admin` role should also have the `spectator` role.
 
 **`/api/users/delete`**
 
-**HTTP Method**: `POST`
-**Required Role**: `admin`
+**HTTP Method**: `POST`  
+**Required Role**: `admin`  
 **Request Body**:
 ```json
 {
@@ -217,8 +217,8 @@ Important properties of Reservations:
 
 **`/api/reservations/summary?year=<year>&month=<month>`**
 
-**HTTP Method**: `GET`
-**Required Role**: none
+**HTTP Method**: `GET`  
+**Required Role**: none  
 **Response Body**:
 ```json
 "data": [
@@ -240,8 +240,8 @@ Important properties of Reservations:
 
 **`/api/reservations/day?year=<year>&month=<month>&day=<day>`**
 
-**HTTP Method**: `GET`
-**Required Role**: none
+**HTTP Method**: `GET`  
+**Required Role**: none  
 **Response Body**:
 ```json
 "data": [
@@ -260,8 +260,8 @@ Important properties of Reservations:
 
 **`/api/reservations/create`**
 
-**HTTP Method**: `POST`
-**Required Role**: none
+**HTTP Method**: `POST`  
+**Required Role**: none  
 **Request Body**:
 ```json
 {
@@ -288,8 +288,8 @@ Important properties of Reservations:
 
 **`/api/reservations/confirm`**
 
-**HTTP Method**: `POST`
-**Required Role**: none
+**HTTP Method**: `POST`  
+**Required Role**: none  
 **Request Body**:
 ```json
 {
@@ -310,8 +310,8 @@ To keep clients & the server in sync with country and district codes, clients ca
 
 **`/api/locations/list`**
 
-**HTTP Method**: `GET`
-**Required Role**: none
+**HTTP Method**: `GET`  
+**Required Role**: none  
 **Response Body**:
 ```json
 {
@@ -343,8 +343,8 @@ Important properties of Endorsements:
 
 **`/api/endorsements/list`**
 
-**HTTP Method**: `GET`
-**Required Role**: none
+**HTTP Method**: `GET`  
+**Required Role**: none  
 **Response Body**:
 ```json
 "data": {
@@ -362,8 +362,8 @@ Important properties of Endorsements:
 
 **`/api/endorsements/current`**
 
-**HTTP Method**: `GET`
-**Required Role**: none
+**HTTP Method**: `GET`  
+**Required Role**: none  
 **Response Body**:
 ```json
 "data": {
@@ -377,8 +377,8 @@ Important properties of Endorsements:
 
 **`/api/endorsements/update`**
 
-**HTTP Method**: `POST`
-**Required Role**: `admin`
+**HTTP Method**: `POST`  
+**Required Role**: `admin`  
 **Request Body**:
 ```json
 {
