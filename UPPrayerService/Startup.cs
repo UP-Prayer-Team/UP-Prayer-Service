@@ -26,6 +26,7 @@ namespace UPPrayerService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<Services.EndorsementService>();
+            services.AddScoped<Services.ReservationService>();
             services.AddControllers();
         }
 

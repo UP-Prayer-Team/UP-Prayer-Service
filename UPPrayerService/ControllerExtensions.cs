@@ -19,5 +19,10 @@ namespace UPPrayerService
             result.StatusCode = statusCode;
             return result;
         }
+
+        public static bool SlotIsValid(this Controller _this, int year, int monthIndex, int dayIndex, int slotIndex)
+        {
+            return year >= 0 && year < 10000 && monthIndex >= 0 && monthIndex < 12 && dayIndex >= 0 && dayIndex < DateTime.DaysInMonth(year, monthIndex + 1) && slotIndex >= 0 && slotIndex < 48;
+        }
     }
 }
