@@ -284,7 +284,7 @@ Important properties of Reservations:
 "data": null
 ```
 **Response Codes**:
- - `400 Bad Request` if the values of `country` or `district` are not valid, or if the `year`, `monthIndex`, `dayIndex`, and `slotIndex` do not specify a valid slot in the future.
+ - `400 Bad Request` if the values of `country` or `district` are not valid, or if the `year`, `monthIndex`, `dayIndex`, and `slotIndex` do not specify a valid slot in the future, or if there is already a pending confirmation for the given email address, or if any of the requested slots are already reserved by the given email address.
 
 **`/api/reservations/confirm`**
 -------------------------------

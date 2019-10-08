@@ -2,26 +2,33 @@
 using System.Collections.Generic;
 using UPPrayerService.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace UPPrayerService.Services
 {
     public class ReservationService
     {
-        private List<Reservation> _testReservations = new List<Reservation>();
-        private List<Confirmation> _testConfirmations = new List<Confirmation>();
+        //private List<Reservation> _testReservations = new List<Reservation>();
+        //private List<Confirmation> _testConfirmations = new List<Confirmation>();
+        private DataContext Context { get; }
+        private ILogger Logger { get; }
 
-        public ReservationService()
+        public ReservationService(DataContext dataContext, ILogger<ReservationService> logger)
         {
-            _testReservations.Add(new Reservation() { Country = "", DayIndex = 0, MonthIndex = 1, District = "", Email = "test1@example.com", Year = 2019, ID = "0409481", SlotIndex = 2, IsConfirmed = false });
-            _testReservations.Add(new Reservation() { Country = "USA", DayIndex = 0, MonthIndex = 2, District = "OR", Email = "test2@example.com", Year = 2019, ID = "5018429", SlotIndex = 12, IsConfirmed = true });
-            _testReservations.Add(new Reservation() { Country = "USA", DayIndex = 3, MonthIndex = 1, District = "WA", Email = "test3@example.com", Year = 2019, ID = "5918493", SlotIndex = 5, IsConfirmed = true });
+            this.Context = dataContext;
+            this.Logger = logger;
+            //_testReservations.Add(new Reservation() { Country = "", DayIndex = 0, MonthIndex = 1, District = "", Email = "test1@example.com", Year = 2019, ID = "0409481", SlotIndex = 2, IsConfirmed = false });
+            //_testReservations.Add(new Reservation() { Country = "USA", DayIndex = 0, MonthIndex = 2, District = "OR", Email = "test2@example.com", Year = 2019, ID = "5018429", SlotIndex = 12, IsConfirmed = true });
+            //_testReservations.Add(new Reservation() { Country = "USA", DayIndex = 3, MonthIndex = 1, District = "WA", Email = "test3@example.com", Year = 2019, ID = "5918493", SlotIndex = 5, IsConfirmed = true });
 
-            _testConfirmations.Add(new Confirmation() { ID = "001", Email = "test1@example.com", Reservations = new List<Reservation>() { _testReservations[0] } });
+            //_testConfirmations.Add(new Confirmation() { ID = "001", Email = "test1@example.com", Reservations = new List<Reservation>() { _testReservations[0] } });
         }
 
         public IEnumerable<Reservation> GetReservations(DateTime start, DateTime end, bool onlyConfirmed)
         {
-            return _testReservations.Where(reservation =>
+            //return _testReservations.Where(reservation =>
+            return Context.Reservations.Where(reservation => reservation.IsConfirmed || !onlyConfirmed).ToArray().Where(reservation =>
             {
                 DateTime date = new DateTime(reservation.Year, reservation.MonthIndex + 1, reservation.DayIndex + 1, reservation.SlotIndex / 2, 30 * (reservation.SlotIndex % 2), 0);
                 return (reservation.IsConfirmed || !onlyConfirmed) && start <= date && end > date;
@@ -35,7 +42,9 @@ namespace UPPrayerService.Services
 
         public void AddReservation(Reservation reservation)
         {
-            _testReservations.Add(reservation);
+            //_testReservations.Add(reservation);
+            Context.Reservations.Add(reservation);
+            Context.SaveChanges();
         }
 
         public string GenerateConfirmationID()
@@ -43,25 +52,39 @@ namespace UPPrayerService.Services
             return Guid.NewGuid().ToString();
         }
 
+        public bool DoesEmailHavePendingConfirmation(string email)
+        {
+            return Context.Confirmations.Any(confirmation => confirmation.Email == email);
+        }
+
+        public void SendConfirmationCode(string email, string confirmationCode)
+        {
+            Logger.LogInformation("\n\nConfirmation code for '" + email + "': " + confirmationCode + "\n\n");
+        }
+
         public void AddConfirmation(Confirmation confirmation)
         {
-            _testConfirmations.Add(confirmation);
+            //_testConfirmations.Add(confirmation);
+            Context.Confirmations.Add(confirmation);
+            Context.SaveChanges();
         }
 
         public void Confirm(string confirmationID)
         {
-            Confirmation confirmation = _testConfirmations.FirstOrDefault(conf => conf.ID == confirmationID);
+            Confirmation confirmation = Context.Confirmations.Include(conf => conf.Reservations).FirstOrDefault(conf => conf.ID == confirmationID);
             if (confirmation == null)
             {
                 throw new KeyNotFoundException();
             }
             else
             {
-                foreach (Reservation r in _testReservations.Where(r => confirmation.Reservations.Contains(r)))
+                foreach (Reservation r in confirmation.Reservations)
                 {
                     r.IsConfirmed = true;
                 }
-                _testConfirmations.Remove(confirmation);
+                //_testConfirmations.Remove(confirmation);
+                Context.Confirmations.Remove(confirmation);
+                Context.SaveChanges();
             }
         }
     }

@@ -98,13 +98,23 @@ namespace UPPrayerService.Controllers
         [HttpPost("create")]
         public IActionResult Create(CreateReservationsRequest request)
         {
+            // Validate that the email is not already awaiting confirmation
+            if (ReservationService.DoesEmailHavePendingConfirmation(request.Email))
+            {
+                return this.MakeFailure("Email already has pending confirmations.", 400);
+            }
+
             foreach (CreateReservationsRequest.Slot slot in request.Slots)
             {
-                // TODO: Validate that slot is in the future
+                // Validate that the slot is valid
                 if (!this.SlotIsValid(slot.Year, slot.MonthIndex, slot.DayIndex, slot.SlotIndex))
                 {
                     return this.MakeFailure("Date or slot is not valid.", StatusCodes.Status400BadRequest);
                 }
+
+                // TODO: Validate that slot is in the future
+
+                // TODO: Validate that slot is not already reserved by the email
             }
 
             // TODO: Validate the country & district
@@ -117,6 +127,9 @@ namespace UPPrayerService.Controllers
                 confirmation.Reservations.Add(reservation);
             }
             ReservationService.AddConfirmation(confirmation);
+
+            ReservationService.SendConfirmationCode(request.Email, confirmation.ID);
+
             return this.MakeSuccess();
         }
 
