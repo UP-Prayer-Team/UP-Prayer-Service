@@ -109,12 +109,12 @@ namespace UPPrayerService.Controllers
 
             // TODO: Validate the country & district
 
-            Confirmation confirmation = new Confirmation() { ConfirmationID = ReservationService.GenerateConfirmationID(), Email = request.Email, Reservations = new List<string>() };
+            Confirmation confirmation = new Confirmation() { ID = ReservationService.GenerateConfirmationID(), Email = request.Email, Reservations = new List<Reservation>() };
             foreach (CreateReservationsRequest.Slot slot in request.Slots)
             {
                 Reservation reservation = new Reservation() { ID = ReservationService.GenerateReservationID(), Email = request.Email, IsConfirmed = false, Country = request.Country, District = request.District, Year = slot.Year, MonthIndex = slot.MonthIndex, DayIndex = slot.DayIndex, SlotIndex = slot.SlotIndex };
                 ReservationService.AddReservation(reservation);
-                confirmation.Reservations.Add(reservation.ID);
+                confirmation.Reservations.Add(reservation);
             }
             ReservationService.AddConfirmation(confirmation);
             return this.MakeSuccess();

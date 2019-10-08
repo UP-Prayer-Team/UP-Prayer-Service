@@ -16,7 +16,7 @@ namespace UPPrayerService.Services
             _testReservations.Add(new Reservation() { Country = "USA", DayIndex = 0, MonthIndex = 2, District = "OR", Email = "test2@example.com", Year = 2019, ID = "5018429", SlotIndex = 12, IsConfirmed = true });
             _testReservations.Add(new Reservation() { Country = "USA", DayIndex = 3, MonthIndex = 1, District = "WA", Email = "test3@example.com", Year = 2019, ID = "5918493", SlotIndex = 5, IsConfirmed = true });
 
-            _testConfirmations.Add(new Confirmation() { ConfirmationID = "001", Email = "test1@example.com", Reservations = new List<string>() { "0409481" } });
+            _testConfirmations.Add(new Confirmation() { ID = "001", Email = "test1@example.com", Reservations = new List<Reservation>() { _testReservations[0] } });
         }
 
         public IEnumerable<Reservation> GetReservations(DateTime start, DateTime end, bool onlyConfirmed)
@@ -50,14 +50,14 @@ namespace UPPrayerService.Services
 
         public void Confirm(string confirmationID)
         {
-            Confirmation confirmation = _testConfirmations.FirstOrDefault(conf => conf.ConfirmationID == confirmationID);
+            Confirmation confirmation = _testConfirmations.FirstOrDefault(conf => conf.ID == confirmationID);
             if (confirmation == null)
             {
                 throw new KeyNotFoundException();
             }
             else
             {
-                foreach (Reservation r in _testReservations.Where(r => confirmation.Reservations.Contains(r.ID)))
+                foreach (Reservation r in _testReservations.Where(r => confirmation.Reservations.Contains(r)))
                 {
                     r.IsConfirmed = true;
                 }
