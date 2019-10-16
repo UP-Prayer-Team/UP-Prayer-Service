@@ -15,7 +15,7 @@ Building & Running
 **Visual Studio**:  
 Use the standard Build & Debug tools (play button, etc.)
 
-**Command-Line**:
+**Command-Line**:  
 Build with
 ```
 dotnet build
@@ -29,7 +29,7 @@ dotnet run
 Applying Migrations to Database
 -------------------------------
 
-**Command-Line**:
+**Command-Line**:  
 ```
 dotnet ef database update
 ```
@@ -37,9 +37,9 @@ dotnet ef database update
 Creating Migrations to Match Model Changes
 ------------------------------------------
 
-**Command-Line**:
+**Command-Line**:  
 ```
 dotnet ef migrations add <MigrationName>
 ```
 
-Make sure the apply the created migrations (see **Applying Migrations to Database** above)
+Make sure to apply the created migrations (see **Applying Migrations to Database** above)
