@@ -16,6 +16,8 @@ namespace UPPrayerService
 {
     public class Startup
     {
+        private const string CORSPolicyName = "CORSPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -26,6 +28,13 @@ namespace UPPrayerService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CORSPolicyName, builder =>
+                {
+                    builder.WithOrigins("http://localhost:8080");
+                });
+            });
             services.AddDbContext<DataContext>(options=> options.UseSqlite(Configuration.GetConnectionString("SQLite")));
             services.AddScoped<Services.EndorsementService>();
             services.AddScoped<Services.ReservationService>();
@@ -39,6 +48,8 @@ namespace UPPrayerService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(CORSPolicyName);
 
             app.UseHttpsRedirection();
 
