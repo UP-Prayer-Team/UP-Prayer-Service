@@ -32,7 +32,8 @@ namespace UPPrayerService
             {
                 options.AddPolicy(CORSPolicyName, builder =>
                 {
-                    builder.WithOrigins("http://localhost:8080");
+                    builder.WithOrigins("http://localhost:8080")
+                        .WithHeaders("Content-Type");
                 });
             });
             services.AddDbContext<DataContext>(options=> options.UseSqlite(Configuration.GetConnectionString("SQLite")));

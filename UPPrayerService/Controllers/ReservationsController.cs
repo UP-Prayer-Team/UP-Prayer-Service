@@ -67,7 +67,7 @@ namespace UPPrayerService.Controllers
             DateTime start = new DateTime(year, month + 1, day + 1);
             DateTime end = new DateTime(year, month + 1, day + 2);
 
-            List<ReservationsResponseLocation>[] results = new List<ReservationsResponseLocation>[30];
+            List<ReservationsResponseLocation>[] results = new List<ReservationsResponseLocation>[24 * 2];
             IEnumerable<Reservation> reservations = ReservationService.GetReservations(start, end, true);
 
             foreach (Reservation reservation in reservations)

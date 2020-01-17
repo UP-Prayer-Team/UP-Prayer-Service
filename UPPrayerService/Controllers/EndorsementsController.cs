@@ -63,7 +63,7 @@ namespace UPPrayerService.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult Update(EndorsementListViewModel request)
         {
-            if (request.Endorsements.Length >= request.CurrentIndex)
+            if (request.Endorsements.Length <= request.CurrentIndex)
             {
                 if (request.Endorsements.Length > 0)
                 {
