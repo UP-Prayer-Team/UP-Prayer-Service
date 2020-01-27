@@ -96,7 +96,7 @@ namespace UPPrayerService.Controllers
 
         // POST: api/reservations/create
         [HttpPost("create")]
-        public IActionResult Create(CreateReservationsRequest request)
+        public async Task<IActionResult> CreateAsync(CreateReservationsRequest request)
         {
             // Validate that the email is not already awaiting confirmation
             if (ReservationService.DoesEmailHavePendingConfirmation(request.Email))
@@ -128,7 +128,7 @@ namespace UPPrayerService.Controllers
             }
             ReservationService.AddConfirmation(confirmation);
 
-            ReservationService.SendConfirmationCode(request.Email, confirmation.ID);
+            await ReservationService.SendConfirmationCode(request.Email, confirmation.ID);
 
             return this.MakeSuccess();
         }

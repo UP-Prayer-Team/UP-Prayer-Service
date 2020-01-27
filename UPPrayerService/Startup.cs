@@ -37,6 +37,7 @@ namespace UPPrayerService
                 });
             });
             services.AddDbContext<DataContext>(options=> options.UseSqlite(Configuration.GetConnectionString("SQLite")));
+            services.AddScoped<Services.EmailService>();
             services.AddScoped<Services.EndorsementService>();
             services.AddScoped<Services.ReservationService>();
             services.AddControllers();
