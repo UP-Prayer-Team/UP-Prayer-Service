@@ -4,6 +4,7 @@ using UPPrayerService.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace UPPrayerService.Services
 {
@@ -11,11 +12,13 @@ namespace UPPrayerService.Services
     {
         //private List<Reservation> _testReservations = new List<Reservation>();
         //private List<Confirmation> _testConfirmations = new List<Confirmation>();
+        private EmailService EmailService { get; }
         private DataContext Context { get; }
         private ILogger Logger { get; }
 
-        public ReservationService(DataContext dataContext, ILogger<ReservationService> logger)
+        public ReservationService(EmailService emailService, DataContext dataContext, ILogger<ReservationService> logger)
         {
+            this.EmailService = emailService;
             this.Context = dataContext;
             this.Logger = logger;
             //_testReservations.Add(new Reservation() { Country = "", DayIndex = 0, MonthIndex = 1, District = "", Email = "test1@example.com", Year = 2019, ID = "0409481", SlotIndex = 2, IsConfirmed = false });
@@ -57,9 +60,11 @@ namespace UPPrayerService.Services
             return Context.Confirmations.Any(confirmation => confirmation.Email == email);
         }
 
-        public void SendConfirmationCode(string email, string confirmationCode)
+        public async Task SendConfirmationCode(string email, string confirmationCode)
         {
             Logger.LogInformation("\n\nConfirmation code for '" + email + "': " + confirmationCode + "\n\n");
+
+            await EmailService.SendConfirmationEmail(email, confirmationCode);
         }
 
         public void AddConfirmation(Confirmation confirmation)
@@ -69,9 +74,10 @@ namespace UPPrayerService.Services
             Context.SaveChanges();
         }
 
-        public void Confirm(string confirmationID)
+        public List<Reservation> Confirm(string confirmationID)
         {
             Confirmation confirmation = Context.Confirmations.Include(conf => conf.Reservations).FirstOrDefault(conf => conf.ID == confirmationID);
+            List<Reservation> confirmedReservations = null;
             if (confirmation == null)
             {
                 throw new KeyNotFoundException();
@@ -82,10 +88,12 @@ namespace UPPrayerService.Services
                 {
                     r.IsConfirmed = true;
                 }
+                confirmedReservations = new List<Reservation>(confirmation.Reservations);
                 //_testConfirmations.Remove(confirmation);
                 Context.Confirmations.Remove(confirmation);
                 Context.SaveChanges();
             }
+            return confirmedReservations;
         }
     }
 }

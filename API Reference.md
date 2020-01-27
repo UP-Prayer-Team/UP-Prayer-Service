@@ -298,7 +298,17 @@ Important properties of Reservations:
 ```
 **Response Body**:
 ```json
-"data": null
+"data": {
+    "slots": [
+        {
+            "year": 2019,
+            "monthIndex": 0,
+            "dayIndex": 0,
+            "slotIndex": 30
+        },
+        ...
+    ]
+}
 ```
 **Response Codes**:
  - `404 Not Found` if no pending confirmation with the given `confirmationID` exists.

@@ -96,7 +96,7 @@ namespace UPPrayerService.Controllers
 
         // POST: api/reservations/create
         [HttpPost("create")]
-        public IActionResult Create(CreateReservationsRequest request)
+        public async Task<IActionResult> CreateAsync(CreateReservationsRequest request)
         {
             // Validate that the email is not already awaiting confirmation
             if (ReservationService.DoesEmailHavePendingConfirmation(request.Email))
@@ -128,7 +128,7 @@ namespace UPPrayerService.Controllers
             }
             ReservationService.AddConfirmation(confirmation);
 
-            ReservationService.SendConfirmationCode(request.Email, confirmation.ID);
+            await ReservationService.SendConfirmationCode(request.Email, confirmation.ID);
 
             return this.MakeSuccess();
         }
@@ -144,13 +144,19 @@ namespace UPPrayerService.Controllers
         {
             try
             {
-                ReservationService.Confirm(request.ConfirmationID);
+                List<Reservation> confirmedReservations = ReservationService.Confirm(request.ConfirmationID);
+                List<object> slots = new List<object>();
+                foreach (Reservation reservation in confirmedReservations)
+                {
+                    slots.Add(new { year = reservation.Year, monthIndex = reservation.MonthIndex, dayIndex = reservation.DayIndex, slotIndex = reservation.SlotIndex });
+                }
+                return this.MakeSuccess(new { slots = slots });
             }
             catch (KeyNotFoundException)
             {
                 return this.MakeFailure("No such confirmation found.", StatusCodes.Status404NotFound);
             }
-            return this.MakeSuccess();
+            
         }
     }
 }
