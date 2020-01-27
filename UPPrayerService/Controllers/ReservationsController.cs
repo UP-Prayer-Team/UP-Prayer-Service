@@ -144,13 +144,19 @@ namespace UPPrayerService.Controllers
         {
             try
             {
-                ReservationService.Confirm(request.ConfirmationID);
+                List<Reservation> confirmedReservations = ReservationService.Confirm(request.ConfirmationID);
+                List<object> slots = new List<object>();
+                foreach (Reservation reservation in confirmedReservations)
+                {
+                    slots.Add(new { year = reservation.Year, monthIndex = reservation.MonthIndex, dayIndex = reservation.DayIndex, slotIndex = reservation.SlotIndex });
+                }
+                return this.MakeSuccess(new { slots = slots });
             }
             catch (KeyNotFoundException)
             {
                 return this.MakeFailure("No such confirmation found.", StatusCodes.Status404NotFound);
             }
-            return this.MakeSuccess();
+            
         }
     }
 }

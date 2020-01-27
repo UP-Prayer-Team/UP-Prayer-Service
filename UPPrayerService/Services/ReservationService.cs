@@ -74,9 +74,10 @@ namespace UPPrayerService.Services
             Context.SaveChanges();
         }
 
-        public void Confirm(string confirmationID)
+        public List<Reservation> Confirm(string confirmationID)
         {
             Confirmation confirmation = Context.Confirmations.Include(conf => conf.Reservations).FirstOrDefault(conf => conf.ID == confirmationID);
+            List<Reservation> confirmedReservations = null;
             if (confirmation == null)
             {
                 throw new KeyNotFoundException();
@@ -87,10 +88,12 @@ namespace UPPrayerService.Services
                 {
                     r.IsConfirmed = true;
                 }
+                confirmedReservations = new List<Reservation>(confirmation.Reservations);
                 //_testConfirmations.Remove(confirmation);
                 Context.Confirmations.Remove(confirmation);
                 Context.SaveChanges();
             }
+            return confirmedReservations;
         }
     }
 }
