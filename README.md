@@ -5,6 +5,7 @@ Setting Up
 ----------
 
  - Clone this repository
+ - Enter the various API keys into `/UPPrayerService/appsettings.Development.json`
  - Build the project (see **Building & Running** below)
  - Apply database migrations to create an initial database (see **Applying Migrations to Database** below)
 
