@@ -409,3 +409,17 @@ Important properties of Endorsements:
 ```
 **Response Codes**:
  - `400 Bad Request` if the value of `currentIndex` is greater than or equal to the number of elements in `endorsements` and `endorsements` is not empty, or if `endorsements` is empty and `currentIndex` is not equal to 0.
+
+Let's Encrypt
+-------------
+
+You can set a specific secret response for all GET requests made to `/.well-known/acme-challenge/*` for passing Let's Encrypt validation.
+
+**`/api/lets-encrypt/secret`**
+------------------------------
+**HTTP Method**: `POST`  
+**Required Role**: none  
+**Request Body**:
+```json
+"<code here>"
+```

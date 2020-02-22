@@ -66,6 +66,7 @@ namespace UPPrayerService
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGet(".well-known/acme-challenge/{id}", Services.LetsEncryptService.HandleRequest);
                 endpoints.MapControllers();
             });
         }
