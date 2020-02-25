@@ -32,10 +32,13 @@ namespace UPPrayerService
             {
                 options.AddPolicy(CORSPolicyName, builder =>
                 {
-                    builder.WithOrigins("http://localhost:8080",
+                    builder.WithOrigins(
+                        "http://localhost:8080",
                         "https://localhost:8033",
                         "http://*.upmovement.org",
                         "https://*.upmovement.org",
+                        "http://stage.upmovement.org",
+                        "https://stage.upmovement.org",
                         "http://upmovement.org",
                         "https://upmovement.org")
                         .WithHeaders("Content-Type");
