@@ -29,7 +29,7 @@ dotnet run
 Deploying
 ---------
 
- - Fill in the secrets in `appsettings.json`
+ - Fill in the secrets and certificate password in `appsettings.json`
  - Publish the project using Visual Studio
  - Run the script `./deploy-stage.sh` and paste in the password for the `upd` account when requested.
  - Use SSH to restart the service with `sudo systemctl restart upd`, pasting the password again if prompted.
