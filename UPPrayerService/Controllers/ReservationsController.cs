@@ -99,10 +99,10 @@ namespace UPPrayerService.Controllers
         public async Task<IActionResult> CreateAsync(CreateReservationsRequest request)
         {
             // Validate that the email is not already awaiting confirmation
-            if (ReservationService.DoesEmailHavePendingConfirmation(request.Email))
-            {
-                return this.MakeFailure("Email already has pending confirmations.", 400);
-            }
+            //if (ReservationService.DoesEmailHavePendingConfirmation(request.Email))
+            //{
+                //return this.MakeFailure("Email already has pending confirmations.", 400);
+            //}
 
             foreach (CreateReservationsRequest.Slot slot in request.Slots)
             {
@@ -128,7 +128,7 @@ namespace UPPrayerService.Controllers
             }
             ReservationService.AddConfirmation(confirmation);
 
-            await ReservationService.SendConfirmationCode(request.Email, confirmation.ID);
+            await ReservationService.SendConfirmationCode(request.Email, confirmation.ID, confirmation.Reservations);
 
             return this.MakeSuccess();
         }
