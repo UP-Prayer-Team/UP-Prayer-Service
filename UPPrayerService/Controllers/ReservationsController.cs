@@ -101,7 +101,7 @@ namespace UPPrayerService.Controllers
             // Validate that the email is not already awaiting confirmation
             if (ReservationService.DoesEmailHavePendingConfirmation(request.Email))
             {
-                //return this.MakeFailure("Email already has pending confirmations.", 400);
+                return this.MakeFailure("Email already has pending confirmations.", 400);
             }
             
 
