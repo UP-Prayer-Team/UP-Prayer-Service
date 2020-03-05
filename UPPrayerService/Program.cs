@@ -25,19 +25,7 @@ namespace UPPrayerService
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).ConfigureWebHost(configure => configure.UseKestrel(options =>
-                {
-                    options.ListenAnyIP(443, listenOptions =>
-                    {
-                        string certPath = config.GetSection("Certificate").GetValue<string>("Path");
-                        string certPassword = config.GetSection("Certificate").GetValue<string>("Password");
-                        if (certPassword == "")
-                        {
-                            throw new Exception("Fill in Certificate.Password in appsettings.json!");
-                        }
-                        listenOptions.UseHttps(new X509Certificate2(certPath, certPassword));
-                    });
-                }));
+                });
         }
     }
 }
