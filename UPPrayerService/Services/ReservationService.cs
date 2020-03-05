@@ -60,11 +60,11 @@ namespace UPPrayerService.Services
             return Context.Confirmations.Any(confirmation => confirmation.Email == email);
         }
 
-        public async Task SendConfirmationCode(string email, string confirmationCode)
+        public async Task SendConfirmationCode(string email, string confirmationCode, IEnumerable<Models.Reservation> reservations)
         {
             Logger.LogInformation("\n\nConfirmation code for '" + email + "': " + confirmationCode + "\n\n");
 
-            await EmailService.SendConfirmationEmail(email, confirmationCode);
+            await EmailService.SendConfirmationEmail(email, confirmationCode, reservations);
         }
 
         public void AddConfirmation(Confirmation confirmation)
