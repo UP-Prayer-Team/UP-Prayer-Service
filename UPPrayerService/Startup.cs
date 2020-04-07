@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace UPPrayerService
 {
@@ -21,6 +24,9 @@ namespace UPPrayerService
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            // Ensure that the SQLite DB directory exists
+            System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(Configuration.GetSection("ConnectionStrings")["SQLite"].Split('=')[1]));
         }
 
         public IConfiguration Configuration { get; }
@@ -48,16 +54,44 @@ namespace UPPrayerService
             services.AddScoped<Services.EmailService>();
             services.AddScoped<Services.EndorsementService>();
             services.AddScoped<Services.ReservationService>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(config =>
+            {
+                config.SaveToken = true;
+                config.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                {
+                    ValidIssuer = Configuration["Tokens:Issuer"],
+                    ValidAudience = Configuration["Tokens:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                };
+            });
+            services.AddIdentityCore<Models.User>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>()
+                .AddDefaultTokenProviders();
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using (IServiceScope serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                DataContext context = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
+                context.Database.EnsureCreated();
+                context.Initialize(serviceScope.ServiceProvider.GetService<UserManager<Models.User>>(),
+                    serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>());
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
 
             app.UseCors(CORSPolicyName);
 
@@ -65,7 +99,8 @@ namespace UPPrayerService
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
