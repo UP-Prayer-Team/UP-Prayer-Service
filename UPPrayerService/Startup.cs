@@ -59,6 +59,8 @@ namespace UPPrayerService
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(config =>
             {
                 config.SaveToken = true;
@@ -72,7 +74,8 @@ namespace UPPrayerService
             services.AddIdentityCore<Models.User>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddSignInManager<SignInManager<Models.User>>();
             services.AddControllers();
         }
 
@@ -99,8 +102,8 @@ namespace UPPrayerService
 
             app.UseRouting();
 
-            //app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

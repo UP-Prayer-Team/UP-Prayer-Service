@@ -112,6 +112,8 @@ Users who have the `admin` role should also have the `spectator` role.
 {
     "username": "user",
     "password": "password",
+    "displayName": "User",
+    "email": "user@example.com",
     "roles": [
         "role1",
         "role2"

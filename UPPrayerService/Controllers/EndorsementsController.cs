@@ -12,7 +12,7 @@ namespace UPPrayerService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController()]
-    public class EndorsementsController : Controller
+    public class EndorsementsController : ControllerBase
     {
         private EndorsementService EndorsementService { get; }
 
