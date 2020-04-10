@@ -47,7 +47,7 @@ namespace UPPrayerService
                         "https://stage.upmovement.org",
                         "http://upmovement.org",
                         "https://upmovement.org")
-                        .WithHeaders("Content-Type");
+                        .WithHeaders("Content-Type", "Authorization");
                 });
             });
             services.AddDbContext<DataContext>(options=> options.UseSqlite(Configuration.GetConnectionString("SQLite")));

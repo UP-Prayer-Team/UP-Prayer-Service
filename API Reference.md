@@ -62,7 +62,8 @@ Users who have the `admin` role should also have the `spectator` role.
 **Response Body**:
 ```json
 "data": {
-    "token": "..."
+    "token": "...",
+    "id": "..."
 }
 ```
 **Response Codes**:
@@ -136,6 +137,8 @@ Users who have the `admin` role should also have the `spectator` role.
 {
     "id": "...",
     "username": "name",
+    "displayName": "Name",
+    "email": "email@example.com",
     "roles": [
         "role1",
         "role2"

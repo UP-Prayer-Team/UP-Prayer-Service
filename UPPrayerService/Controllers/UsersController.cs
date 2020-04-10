@@ -73,7 +73,7 @@ namespace UPPrayerService.Controllers
                       claims,
                       expires: DateTime.Now.AddHours(24),
                       signingCredentials: creds);
-                    return this.MakeSuccess(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+                    return this.MakeSuccess(new { token = new JwtSecurityTokenHandler().WriteToken(token), id = user.Id });
                 }
                 else
                 {
