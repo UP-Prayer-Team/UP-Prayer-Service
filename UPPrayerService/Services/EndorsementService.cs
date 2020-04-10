@@ -7,7 +7,7 @@ namespace UPPrayerService.Services
     public class EndorsementService
     {
         //private List<Endorsement> _testEndorsements;
-        private int _testCurrentIndex = 0;
+        private volatile static int _testCurrentIndex = 0;
         private DataContext Context { get; }
 
         public EndorsementService(DataContext dataContext)
@@ -33,12 +33,12 @@ namespace UPPrayerService.Services
 
         public int GetCurrentIndex()
         {
-            return this._testCurrentIndex;
+            return _testCurrentIndex;
         }
 
         public void SetCurrentIndex(int currentIndex)
         {
-            this._testCurrentIndex = currentIndex;
+            _testCurrentIndex = currentIndex;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace UPPrayerService.Controllers
 {
     [Route("api/lets-encrypt")]
     [ApiController()]
-    public class LetsEncryptController : Controller
+    public class LetsEncryptController : ControllerBase
     {
         // POST api/lets-encrypt/secret
         [HttpPost("secret")]
