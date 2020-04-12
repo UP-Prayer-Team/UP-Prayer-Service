@@ -352,6 +352,7 @@ Endorsements
 Endorsements are suggested organizations for visitors to donate to.
 
 Important properties of Endorsements:
+ - Name of the organization
  - URL of the organization's homepage
  - URL of the organization's official donation page
  - Summary of the organization's mission
@@ -366,6 +367,7 @@ Important properties of Endorsements:
     "currentIndex": 10,
     "endorsements": [
         {
+            "name": "Example Inc.",
             "homepageURL": "https://www.example.com",
             "donateURL": "https://www.example.com/donate/",
             "summary": "Example.com is doing big things in the Example Website industry, and turns around over 90% of its donations into improving its expansive example infrastructure."
@@ -382,6 +384,7 @@ Important properties of Endorsements:
 **Response Body**:
 ```json
 "data": {
+    "name": "Example Inc.",
     "homepageURL": "https://www.example.com",
     "donateURL": "https://www.example.com/donate/",
     "summary": "Example.com is doing big things in the Example Website industry, and turns around over 90% of its donations into improving its expansive example infrastructure."
@@ -400,6 +403,7 @@ Important properties of Endorsements:
     "currentIndex": 10,
     "endorsements": [
         {
+            "name": "Example Inc.",
             "homepageURL": "https://www.example.com",
             "donateURL": "https://www.example.com/donate/",
             "summary": "Example.com is doing big things in the Example Website industry, and turns around over 90% of its donations into improving its expansive example infrastructure."
