@@ -12,7 +12,7 @@ namespace UPPrayerService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController()]
-    public class EndorsementsController : Controller
+    public class EndorsementsController : ControllerBase
     {
         private EndorsementService EndorsementService { get; }
 
@@ -60,7 +60,7 @@ namespace UPPrayerService.Controllers
 
         // POST: api/endorsements/update
         [HttpPost("update")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = Models.User.ROLE_ADMIN)]
         public IActionResult Update(EndorsementListViewModel request)
         {
             if (request.Endorsements.Length <= request.CurrentIndex)
@@ -74,6 +74,15 @@ namespace UPPrayerService.Controllers
                 {
                     // If there are 0 Endorsements, CurrentIndex must be 0.
                     return this.MakeFailure("If there aren't any Endorsements, CurrentIndex must be 0!", StatusCodes.Status400BadRequest);
+                }
+            }
+
+            // If there are any endorsements with null IDs, fill them in.
+            foreach (Endorsement endorsement in request.Endorsements)
+            {
+                if (endorsement.ID == null)
+                {
+                    endorsement.ID = new Guid().ToString();
                 }
             }
 

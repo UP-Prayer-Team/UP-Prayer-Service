@@ -11,7 +11,7 @@ namespace UPPrayerService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController()]
-    public class ReservationsController : Controller
+    public class ReservationsController : ControllerBase
     {
         private ReservationService ReservationService { get; set; }
 
@@ -99,10 +99,11 @@ namespace UPPrayerService.Controllers
         public async Task<IActionResult> CreateAsync(CreateReservationsRequest request)
         {
             // Validate that the email is not already awaiting confirmation
-            //if (ReservationService.DoesEmailHavePendingConfirmation(request.Email))
-            //{
-                //return this.MakeFailure("Email already has pending confirmations.", 400);
-            //}
+            if (ReservationService.DoesEmailHavePendingConfirmation(request.Email))
+            {
+                return this.MakeFailure("Email already has pending confirmations.", StatusCodes.Status400BadRequest);
+            }
+            
 
             foreach (CreateReservationsRequest.Slot slot in request.Slots)
             {

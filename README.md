@@ -5,6 +5,7 @@ Setting Up
 ----------
 
  - Clone this repository
+ - Enter the various API keys into `/UPPrayerService/appsettings.Development.json`
  - Build the project (see **Building & Running** below)
  - Apply database migrations to create an initial database (see **Applying Migrations to Database** below)
 
@@ -24,6 +25,14 @@ Build & run with
 ```
 dotnet run
 ```
+
+Deploying
+---------
+
+ - Fill in the secrets and certificate password in `appsettings.json`
+ - Publish the project using Visual Studio
+ - Run the script `./deploy-stage.sh` and paste in the password for the `upd` account when requested.
+ - Use SSH to restart the service with `sudo systemctl restart upd`, pasting the password again if prompted.
 
 Database Migrations
 -------------------

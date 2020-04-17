@@ -62,7 +62,8 @@ Users who have the `admin` role should also have the `spectator` role.
 **Response Body**:
 ```json
 "data": {
-    "token": "..."
+    "token": "...",
+    "id": "..."
 }
 ```
 **Response Codes**:
@@ -112,6 +113,8 @@ Users who have the `admin` role should also have the `spectator` role.
 {
     "username": "user",
     "password": "password",
+    "displayName": "User",
+    "email": "user@example.com",
     "roles": [
         "role1",
         "role2"
@@ -134,6 +137,8 @@ Users who have the `admin` role should also have the `spectator` role.
 {
     "id": "...",
     "username": "name",
+    "displayName": "Name",
+    "email": "email@example.com",
     "roles": [
         "role1",
         "role2"
@@ -347,6 +352,7 @@ Endorsements
 Endorsements are suggested organizations for visitors to donate to.
 
 Important properties of Endorsements:
+ - Name of the organization
  - URL of the organization's homepage
  - URL of the organization's official donation page
  - Summary of the organization's mission
@@ -361,6 +367,7 @@ Important properties of Endorsements:
     "currentIndex": 10,
     "endorsements": [
         {
+            "name": "Example Inc.",
             "homepageURL": "https://www.example.com",
             "donateURL": "https://www.example.com/donate/",
             "summary": "Example.com is doing big things in the Example Website industry, and turns around over 90% of its donations into improving its expansive example infrastructure."
@@ -377,6 +384,7 @@ Important properties of Endorsements:
 **Response Body**:
 ```json
 "data": {
+    "name": "Example Inc.",
     "homepageURL": "https://www.example.com",
     "donateURL": "https://www.example.com/donate/",
     "summary": "Example.com is doing big things in the Example Website industry, and turns around over 90% of its donations into improving its expansive example infrastructure."
@@ -395,6 +403,7 @@ Important properties of Endorsements:
     "currentIndex": 10,
     "endorsements": [
         {
+            "name": "Example Inc.",
             "homepageURL": "https://www.example.com",
             "donateURL": "https://www.example.com/donate/",
             "summary": "Example.com is doing big things in the Example Website industry, and turns around over 90% of its donations into improving its expansive example infrastructure."
@@ -409,3 +418,17 @@ Important properties of Endorsements:
 ```
 **Response Codes**:
  - `400 Bad Request` if the value of `currentIndex` is greater than or equal to the number of elements in `endorsements` and `endorsements` is not empty, or if `endorsements` is empty and `currentIndex` is not equal to 0.
+
+Let's Encrypt
+-------------
+
+You can set a specific secret response for all GET requests made to `/.well-known/acme-challenge/*` for passing Let's Encrypt validation.
+
+**`/api/lets-encrypt/secret`**
+------------------------------
+**HTTP Method**: `POST`  
+**Required Role**: none  
+**Request Body**:
+```json
+"<code here>"
+```
