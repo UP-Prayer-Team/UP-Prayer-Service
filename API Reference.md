@@ -432,3 +432,106 @@ You can set a specific secret response for all GET requests made to `/.well-know
 ```json
 "<code here>"
 ```
+
+Blog Posts
+----------
+
+Blog posts have:
+```json
+{
+    "id": "<guid>",
+    "title": "A Test Blog Post",
+    "date": "January 16, 2020",
+    "author": "Ben Garcia",
+    "content": "<h1>This is a Heading!</h1>"
+}
+```
+
+**`/api/posts/create`**
+-----------------------
+**HTTP Method**: `POST`
+**Required Role**: `admin`
+**Request Body**:
+```json
+{
+    "title": "A Test Blog Post",
+    "date": "January 16, 2020",
+    "content": "<h1>This is a Heading!</h1>"
+}
+```
+**Response Body**:
+```json
+"data": {
+    "id": "<new post id>"
+}
+```
+
+**`/api/posts/list`**
+---------------------
+**HTTP Method**: `GET`
+**Required Role**: none
+**Response Body**:
+```json
+"data": {
+    "posts": [
+        {
+            "id": "<guid>",
+            "title": "A Test Blog Post",
+            "date": "January 16, 2020",
+            "author": "Ben Garcia",
+            "content": ""
+        },
+        ...
+	]
+}
+```
+
+**`/api/posts/post/<id>`**
+--------------------------
+**HTTP Method**: `GET`
+**Required Role**: none
+**Response Body**:
+```json
+{
+    "id": "<guid>",
+    "title": "A Test Blog Post",
+    "date": "January 16, 2020",
+    "author": "Ben Garcia",
+    "content": "<h1>This is a Heading!</h1>"
+}
+```
+**Response Codes**:
+ - `404 Not Found` if no post with the given ID exists, or the post is scheduled for the future and the requestor is not an admin.
+
+ **`/api/posts/delete/`**
+ ----------------------------
+ **HTTP Method**: `POST`
+ **Required Role**: `admin`
+ **Request Body**:
+ ```json
+ {
+    "id": "..."
+ }
+ ```
+ **Response Body**:
+ ```json
+ "data": null
+ ```
+ **Response Codes**:
+  - `404 Not Found` if no post with the given ID exists.
+
+**`/api/posts/update/`**
+------------------------
+**HTTP Method**: `POST`
+**Required Role**: `admin`
+**Request Body``:
+```json
+{
+    "id": "<guid>",
+    "title": "A Test Blog Post",
+    "date": "January 16, 2020",
+    "content": "<h1>This is a Heading!</h1>"
+}
+```
+ **Response Codes**:
+  - `404 Not Found` if no post with the given ID exists.
