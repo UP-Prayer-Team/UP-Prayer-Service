@@ -441,7 +441,7 @@ Blog posts have:
 {
     "id": "<guid>",
     "title": "A Test Blog Post",
-    "date": "January 16, 2020",
+    "date": "4/20/2020",
     "author": "Ben Garcia",
     "content": "<h1>This is a Heading!</h1>"
 }
@@ -449,17 +449,17 @@ Blog posts have:
 
 **`/api/posts/create`**
 -----------------------
-**HTTP Method**: `POST`
-**Required Role**: `admin`
-**Request Body**:
+**HTTP Method**: `POST`  
+**Required Role**: `admin`  
+**Request Body**:  
 ```json
 {
     "title": "A Test Blog Post",
-    "date": "January 16, 2020",
+    "date": "4/20/2020",
     "content": "<h1>This is a Heading!</h1>"
 }
 ```
-**Response Body**:
+**Response Body**:  
 ```json
 "data": {
     "id": "<new post id>"
@@ -468,16 +468,16 @@ Blog posts have:
 
 **`/api/posts/list`**
 ---------------------
-**HTTP Method**: `GET`
-**Required Role**: none
-**Response Body**:
+**HTTP Method**: `GET`  
+**Required Role**: none  
+**Response Body**:  
 ```json
 "data": {
     "posts": [
         {
             "id": "<guid>",
             "title": "A Test Blog Post",
-            "date": "January 16, 2020",
+            "date": "4/20/2020",
             "author": "Ben Garcia",
             "content": ""
         },
@@ -488,14 +488,14 @@ Blog posts have:
 
 **`/api/posts/post/<id>`**
 --------------------------
-**HTTP Method**: `GET`
-**Required Role**: none
-**Response Body**:
+**HTTP Method**: `GET`  
+**Required Role**: none  
+**Response Body**:  
 ```json
 {
     "id": "<guid>",
     "title": "A Test Blog Post",
-    "date": "January 16, 2020",
+    "date": "4/20/2020",
     "author": "Ben Garcia",
     "content": "<h1>This is a Heading!</h1>"
 }
@@ -505,15 +505,15 @@ Blog posts have:
 
  **`/api/posts/delete/`**
  ----------------------------
- **HTTP Method**: `POST`
- **Required Role**: `admin`
- **Request Body**:
+ **HTTP Method**: `POST`  
+ **Required Role**: `admin`  
+ **Request Body**:  
  ```json
  {
     "id": "..."
  }
  ```
- **Response Body**:
+ **Response Body**:  
  ```json
  "data": null
  ```
@@ -522,14 +522,14 @@ Blog posts have:
 
 **`/api/posts/update/`**
 ------------------------
-**HTTP Method**: `POST`
-**Required Role**: `admin`
-**Request Body``:
+**HTTP Method**: `POST`  
+**Required Role**: `admin`  
+**Request Body**:  
 ```json
 {
     "id": "<guid>",
     "title": "A Test Blog Post",
-    "date": "January 16, 2020",
+    "date": "4/20/2020",
     "content": "<h1>This is a Heading!</h1>"
 }
 ```

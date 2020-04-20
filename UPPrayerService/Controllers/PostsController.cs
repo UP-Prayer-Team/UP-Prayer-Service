@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using UPPrayerService.Models;
 
 namespace UPPrayerService.Controllers
@@ -33,6 +34,7 @@ namespace UPPrayerService.Controllers
             public string Content { get; set; }
         }
 
+        [Authorize(Roles = Models.User.ROLE_ADMIN)]
         [HttpPost("create")]
         public async Task<IActionResult> Create(CreateRequest request)
         {
@@ -40,7 +42,8 @@ namespace UPPrayerService.Controllers
             Post.Title = request.Title;
             Post.Content = request.Content;
             Post.Date = DateTime.Parse(request.Date);
-            //TODO set user
+            Post.Author = await UserManager.FindByIdAsync(User.Claims.First(c => c.Type == "id").Value);
+
             DataContext.BlogPosts.Add(Post);
 
             await DataContext.SaveChangesAsync();
@@ -48,14 +51,23 @@ namespace UPPrayerService.Controllers
             return this.MakeSuccess(new { id = Post.ID });
         }
 
+        private object AnonymizePost(BlogPost post)
+        {
+            return new { ID = post.ID, Title = post.Title, Date = post.Date, Author = post.Author?.DisplayName ?? "<nobody>", Content = post.Content };
+        }
+
         [HttpGet("list")]
         public async Task<IActionResult> List()
         {
-            List<BlogPost> emptyPosts = new List<BlogPost>();
+            bool includeFuture = HttpContext.User.IsInRole(Models.User.ROLE_SPECTATOR);
+            List<object> emptyPosts = new List<object>();
 
-            foreach (BlogPost post in DataContext.BlogPosts)
+            foreach (BlogPost post in DataContext.BlogPosts.Include(p => p.Author))
             {
-                emptyPosts.Add(new BlogPost(post.ID,post.Title, post.Date, post.Author, ""));
+                if (post.Date <= DateTime.Now || includeFuture)
+                {
+                    emptyPosts.Add(AnonymizePost(new BlogPost(post.ID,post.Title, post.Date, post.Author, "")));
+                }
             }
 
             return this.MakeSuccess(emptyPosts.ToArray());
@@ -64,9 +76,10 @@ namespace UPPrayerService.Controllers
         [HttpGet("post/{id}")]
         public async Task<IActionResult> Post(string id)
         {
+            bool includeFuture = HttpContext.User.IsInRole(Models.User.ROLE_SPECTATOR);
             BlogPost post = DataContext.BlogPosts.FirstOrDefault(p => p.ID == id);
 
-            if (post == null)
+            if (post == null || (post.Date > DateTime.Now && !includeFuture))
             {
                 return this.MakeFailure("No such Post", StatusCodes.Status404NotFound);
             }
@@ -81,9 +94,8 @@ namespace UPPrayerService.Controllers
             public String ID { get; set; }
         }
 
-        //[Authorize(Roles = Models.User.ROLE_ADMIN)]
+        [Authorize(Roles = Models.User.ROLE_ADMIN)]
         [HttpPost("delete")]
-
         public async Task<IActionResult> Delete(DeleteRequest request)
         {
             BlogPost post = DataContext.BlogPosts.FirstOrDefault(p => p.ID == request.ID);
@@ -107,9 +119,8 @@ namespace UPPrayerService.Controllers
             public string Content { get; set; }
         }
 
-        //[Authorize(Roles = Models.User.ROLE_ADMIN)]
+        [Authorize(Roles = Models.User.ROLE_ADMIN)]
         [HttpPost("update")]
-
         public async Task<IActionResult> Update(UpdateRequest request)
         {
             BlogPost post = DataContext.BlogPosts.FirstOrDefault(p => p.ID == request.ID);
@@ -129,7 +140,5 @@ namespace UPPrayerService.Controllers
                 return this.MakeSuccess();
             }
         }
-
-
     }
 }
