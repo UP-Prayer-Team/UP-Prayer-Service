@@ -15,7 +15,16 @@ namespace UPPrayerService.Models
 
         public BlogPost()
         {
-            this.ID = new Guid().ToString();
+            this.ID = Guid.NewGuid().ToString();
+        }
+
+        public BlogPost(string id, string title, DateTime date, User author, string content)
+        {
+            this.ID = id;
+            this.Title = title;
+            this.Date = date;
+            this.Author = author;
+            this.Content = content;
         }
     }
 }
