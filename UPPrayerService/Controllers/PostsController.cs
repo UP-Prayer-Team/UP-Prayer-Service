@@ -51,9 +51,14 @@ namespace UPPrayerService.Controllers
             return this.MakeSuccess(new { id = Post.ID });
         }
 
+        /// <summary>
+        /// Returns a copy of the given post, but with the author info replaced with the author name.
+        /// </summary>
+        /// <param name="post">The post to anonymize.</param>
+        /// <returns></returns>
         private object AnonymizePost(BlogPost post)
         {
-            return new { ID = post.ID, Title = post.Title, Date = post.Date, Author = post.Author?.DisplayName ?? "<nobody>", Content = post.Content };
+            return new { ID = post.ID, Title = post.Title, Date = post.Date.ToShortDateString(), Author = post.Author?.DisplayName ?? "<nobody>", Content = post.Content };
         }
 
         [HttpGet("list")]
@@ -77,7 +82,7 @@ namespace UPPrayerService.Controllers
         public async Task<IActionResult> Post(string id)
         {
             bool includeFuture = HttpContext.User.IsInRole(Models.User.ROLE_SPECTATOR);
-            BlogPost post = DataContext.BlogPosts.FirstOrDefault(p => p.ID == id);
+            BlogPost post = DataContext.BlogPosts.Include(p => p.Author).FirstOrDefault(p => p.ID == id);
 
             if (post == null || (post.Date > DateTime.Now && !includeFuture))
             {
@@ -85,7 +90,7 @@ namespace UPPrayerService.Controllers
             }
             else
             {
-                return this.MakeSuccess(post);
+                return this.MakeSuccess(AnonymizePost(post));
             }
         }
 
@@ -107,6 +112,7 @@ namespace UPPrayerService.Controllers
             else
             {
                 DataContext.BlogPosts.Remove(post);
+                await DataContext.SaveChangesAsync();
                 return this.MakeSuccess(null);
             }
         }
