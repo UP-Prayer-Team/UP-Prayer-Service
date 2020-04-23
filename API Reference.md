@@ -472,18 +472,16 @@ Blog posts have:
 **Required Role**: none  
 **Response Body**:  
 ```json
-"data": {
-    "posts": [
-        {
-            "id": "<guid>",
-            "title": "A Test Blog Post",
-            "date": "4/20/2020",
-            "author": "Ben Garcia",
-            "content": ""
-        },
-        ...
-	]
-}
+"data": [
+    {
+        "id": "<guid>",
+        "title": "A Test Blog Post",
+        "date": "4/20/2020",
+        "author": "Ben Garcia",
+        "content": ""
+    },
+    ...
+]
 ```
 
 **`/api/posts/post/<id>`**

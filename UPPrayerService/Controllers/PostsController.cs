@@ -67,12 +67,10 @@ namespace UPPrayerService.Controllers
             bool includeFuture = HttpContext.User.IsInRole(Models.User.ROLE_SPECTATOR);
             List<object> emptyPosts = new List<object>();
 
-            foreach (BlogPost post in DataContext.BlogPosts.Include(p => p.Author))
+            IQueryable<BlogPost> posts = includeFuture ? DataContext.BlogPosts : DataContext.BlogPosts.Where(p => p.Date < DateTime.Now);
+            foreach (BlogPost post in posts.Include(p => p.Author).OrderByDescending(p => p.Date))
             {
-                if (post.Date <= DateTime.Now || includeFuture)
-                {
-                    emptyPosts.Add(AnonymizePost(new BlogPost(post.ID,post.Title, post.Date, post.Author, "")));
-                }
+                emptyPosts.Add(AnonymizePost(new BlogPost(post.ID,post.Title, post.Date, post.Author, "")));
             }
 
             return this.MakeSuccess(emptyPosts.ToArray());
