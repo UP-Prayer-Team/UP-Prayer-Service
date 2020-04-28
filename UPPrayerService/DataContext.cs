@@ -15,6 +15,7 @@ namespace UPPrayerService
         public DbSet<Endorsement> Endorsements { get; set; }
         public DbSet<Confirmation> Confirmations { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<BlogPost> BlogPosts { get; set; }
 
         public DataContext(DbContextOptions<DataContext> dataOptions) : base(dataOptions)
         {

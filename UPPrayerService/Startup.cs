@@ -40,7 +40,7 @@ namespace UPPrayerService
                 {
                     builder.WithOrigins(
                         "http://localhost:8080",
-                        "https://localhost:8033",
+                        "http://localhost:8081",
                         "http://*.upmovement.org",
                         "https://*.upmovement.org",
                         "http://stage.upmovement.org",
