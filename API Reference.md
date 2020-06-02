@@ -217,6 +217,7 @@ Any number of Reservations may exist for a given time slot.
 Important properties of Reservations:
  - Unique ID (PRIVATE (only sent to requests authorized with the `spectator` role, used for identifying Reservations for confirming, deleting, etc)
  - Optional Location (Country & district for visualization, analytics, etc)
+ - Optional Charity (Endorsement user intends to donate to)
  - Email (PRIVATE (only sent to requests authorized with the `spectator` role), for delivering reminder emails, confirming the Reservation, etc)
  - Year, month, date, and slot number
 
@@ -271,6 +272,7 @@ Important properties of Reservations:
 ```json
 {
     "email": "test@example.com",
+    "endorsementID": "6f0c307d-3bc5-43f2-8db8-c766183e5175", // Valid endorsement Guid
     "country": "USA", // Uppercase ISO 3166-1 alpha-3 country code
     "district": "WA",
     "slots": [
@@ -352,6 +354,7 @@ Endorsements
 Endorsements are suggested organizations for visitors to donate to.
 
 Important properties of Endorsements:
+ - Unique Guid generated upon creation
  - Name of the organization
  - URL of the organization's homepage
  - URL of the organization's official donation page
@@ -367,6 +370,7 @@ Important properties of Endorsements:
     "currentIndex": 10,
     "endorsements": [
         {
+            "id": "6f0c307d-3bc5-43f2-8db8-c766183e5175"
             "name": "Example Inc.",
             "homepageURL": "https://www.example.com",
             "donateURL": "https://www.example.com/donate/",
@@ -384,6 +388,7 @@ Important properties of Endorsements:
 **Response Body**:
 ```json
 "data": {
+    "id": "6f0c307d-3bc5-43f2-8db8-c766183e5175"
     "name": "Example Inc.",
     "homepageURL": "https://www.example.com",
     "donateURL": "https://www.example.com/donate/",
