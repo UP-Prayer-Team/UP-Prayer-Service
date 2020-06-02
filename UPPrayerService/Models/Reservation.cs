@@ -7,7 +7,7 @@ namespace UPPrayerService.Models
         public string Email { get; set; }
         public string Country { get; set; }
         public string District { get; set; }
-        public bool pledged { get; set; }
+        public bool Pledged { get; set; }
         public int Year { get; set; }
         public int MonthIndex { get; set; }
         public int DayIndex { get; set; }
