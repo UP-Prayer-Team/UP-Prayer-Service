@@ -80,9 +80,9 @@ namespace UPPrayerService.Controllers
             // If there are any endorsements with null IDs, fill them in.
             foreach (Endorsement endorsement in request.Endorsements)
             {
-                if (endorsement.ID == null)
+                if (endorsement.ID == null || endorsement.ID == "")
                 {
-                    endorsement.ID = new Guid().ToString();
+                    endorsement.ID = Guid.NewGuid().ToString();
                 }
             }
 
