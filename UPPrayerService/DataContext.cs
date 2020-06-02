@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using UPPrayerService.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Linq;
 
 namespace UPPrayerService
 {
@@ -50,6 +51,14 @@ namespace UPPrayerService
                 {
                     throw new Exception("Couldn't create default user: " + createResult.ToString());
                 }
+            }
+
+            // if the other o endorsement is not in the database then create
+            if (!this.Endorsements.Any((Endorsement e) => e.ID == new Guid().ToString())) 
+            {
+                Endorsement otherEndorsement = new Endorsement() { Name = "Other", ID = new Guid().ToString(), DonateURL = "", HomepageURL = "", Summary = "" };
+                Endorsements.Add(otherEndorsement);
+                await this.SaveChangesAsync();
             }
         }
     }

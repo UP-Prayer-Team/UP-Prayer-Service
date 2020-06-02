@@ -14,10 +14,11 @@ namespace UPPrayerService.Controllers
     public class ReservationsController : ControllerBase
     {
         private ReservationService ReservationService { get; set; }
-
-        public ReservationsController(ReservationService reservationService)
+        private DataContext DataContext { get; set; }
+        public ReservationsController(ReservationService reservationService, DataContext dataContext)
         {
             this.ReservationService = reservationService;
+            this.DataContext = dataContext;
         }
 
         private class ReservationsResponseLocation
@@ -89,6 +90,7 @@ namespace UPPrayerService.Controllers
             }
 
             public string Email { get; set; }
+            public string EndorsementID { get; set; }
             public string Country { get; set; }
             public string District { get; set; }
             public Slot[] Slots { get; set; }
@@ -102,6 +104,12 @@ namespace UPPrayerService.Controllers
             if (ReservationService.DoesEmailHavePendingConfirmation(request.Email))
             {
                 return this.MakeFailure("Email already has pending confirmations.", StatusCodes.Status400BadRequest);
+            }
+
+            // if ID is present && invalid
+            if (!String.IsNullOrEmpty(request.EndorsementID) && !DataContext.Endorsements.Any((Endorsement e) => e.ID == request.EndorsementID))
+            {
+                return this.MakeFailure("Invalid Endorsement ID.", StatusCodes.Status400BadRequest);
             }
             
 
@@ -123,7 +131,7 @@ namespace UPPrayerService.Controllers
             Confirmation confirmation = new Confirmation() { ID = ReservationService.GenerateConfirmationID(), Email = request.Email, Reservations = new List<Reservation>() };
             foreach (CreateReservationsRequest.Slot slot in request.Slots)
             {
-                Reservation reservation = new Reservation() { ID = ReservationService.GenerateReservationID(), Email = request.Email, IsConfirmed = false, Country = request.Country, District = request.District, Year = slot.Year, MonthIndex = slot.MonthIndex, DayIndex = slot.DayIndex, SlotIndex = slot.SlotIndex };
+                Reservation reservation = new Reservation() { ID = ReservationService.GenerateReservationID(), Email = request.Email, IsConfirmed = false, EndorsementID = request.EndorsementID, Country = request.Country, District = request.District, Year = slot.Year, MonthIndex = slot.MonthIndex, DayIndex = slot.DayIndex, SlotIndex = slot.SlotIndex };
                 ReservationService.AddReservation(reservation);
                 confirmation.Reservations.Add(reservation);
             }
