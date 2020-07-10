@@ -52,8 +52,9 @@ namespace UPPrayerService.Services
 
             times = builder.ToString();
 
-            string plaintextContent = "Thank you for signing up to pray for trafficking around the globe!\n\nTo confirm your reservation for these times: ," + times + " visit "+ confirmationAddress + "\n\nBest,\nThe UP Prayer Team";
-            string htmlContent = plaintextContent; // TODO: Get HTML content from database
+            string plaintextContent = "Thank you for signing up to pray for an end to trafficking around the globe!<br><br> To confirm your reservation for these times: " + times + " visit " + confirmationAddress + "<br><br> Please make note of the times you have committed to pray as this is the only confirmation email you will receive.<br><br> To help set our focus on the majesty of Jesus, an optional series of short devotionals is available. You may access them at this link: <a> https://stage.upmovement.org/#/devos </a><br><br> We also have a guided prayer to help you during your prayer time: <a> https://stage.upmovement.org/#/prayer </a> Blessings, <br> The UP Movement Team";
+
+            string htmlContent = plaintextContent;
 
             builder.Clear();
 
