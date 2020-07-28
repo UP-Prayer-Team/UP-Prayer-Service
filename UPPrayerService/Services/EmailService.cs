@@ -14,7 +14,7 @@ namespace UPPrayerService.Services
     public class EmailService
     {
         private const string FromAddress = "noReply@upmovement.org"; // TODO: Replace with actual from address
-        private const string FromName = "UP Prayer Team"; // TODO: Replace with actual from name
+        private const string FromName = "UP Movement Team"; // TODO: Replace with actual from name
 
         private DataContext Context { get; }
         private ILogger<EmailService> Logger { get; }
@@ -39,7 +39,7 @@ namespace UPPrayerService.Services
             SendGridClient client = new SendGridClient(SendGridAPIKey);
             EmailAddress fromAddress = new EmailAddress(FromAddress, FromName);
             EmailAddress toAddress = new EmailAddress(recipientEmail);
-            string subject = "Confirm your prayer date"; // TODO: Final copy
+            string subject = "Confirm Your Prayer Slot"; // TODO: Final copy
             string times = "";
             string confirmationAddress = ConfirmationURL + confirmationCode;
             StringBuilder builder = new StringBuilder();
@@ -52,7 +52,7 @@ namespace UPPrayerService.Services
 
             times = builder.ToString();
 
-            string plaintextContent = "Thank you for signing up to pray for an end to trafficking around the globe!<br><br> To confirm your reservation for these times: " + times + " visit " + confirmationAddress + "<br><br> Please make note of the times you have committed to pray as this is the only confirmation email you will receive.<br><br> To help set our focus on the majesty of Jesus, an optional series of short devotionals is available. You may access them at this link: <a> https://stage.upmovement.org/#/devos </a><br><br> We also have a guided prayer to help you during your prayer time: <a> https://stage.upmovement.org/#/prayer </a> Blessings, <br> The UP Movement Team";
+            string plaintextContent = "Thank you for signing up to pray for an end to trafficking around the globe!<br><br> To confirm your reservation for these times: " + times + " visit " + confirmationAddress + "<br><br> Please make note of the times you have committed to pray as this is the only confirmation email you will receive.<br><br> To help set our focus on the majesty of Jesus, an optional series of short devotionals is available. You may access them <a href='https://stage.upmovement.org/#/devos'> here </a>. <br><br> We also have a guided prayer to help you during your prayer time available <a href='https://stage.upmovement.org/#/prayer'> here </a>. <br><br> Blessings, <br> The UP Movement Team";
 
             string htmlContent = plaintextContent;
 
@@ -65,7 +65,7 @@ namespace UPPrayerService.Services
             string summary = "Pray to End Human Trafficking";
             string location = "Anywhere";
             string description = "Pray to end human trafficking.";
-            string organization = "Up Prayer Movement";
+            string organization = "UP Movement";
 
             foreach (Models.Reservation reservation in reservations) {
                 //start the calendar item
