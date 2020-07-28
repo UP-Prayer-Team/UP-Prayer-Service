@@ -46,7 +46,11 @@ namespace UPPrayerService
                         "http://stage.upmovement.org",
                         "https://stage.upmovement.org",
                         "http://upmovement.org",
-                        "https://upmovement.org")
+                        "https://upmovement.org",
+                        "http://www.upmovement.org",
+                        "https://www.upmovement.org",
+                        "https://admin.upmovement.org",
+                        "https://admin.stage.upmovement.org")
                         .WithHeaders("Content-Type", "Authorization");
                 });
             });
